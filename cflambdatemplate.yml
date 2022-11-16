@@ -8,33 +8,26 @@ Resources:
       FunctionName:
         Fn::Sub: indexphotos-lambda-function-1-cf
       Runtime: python3.9
-      CodeUri: ../../lambda_functions/search_photos
+      CodeUri: ./search_photos
         # ZipFile: #need to add the code here
         #   "exports.handler = function(event, context){\n
         #     var sample = sample;"
-      Role:
+      Role: arn:aws:iam::927015531901:role/lambda-index-photos
         Fn::GetAtt:
-          - IndexPhotosLambdaExecutionRole
-          - Arn
+          # - IndexPhotosLambdaExecutionRole
+          # - Arn
   LambdaFunction2CF: #Lambda Function-Search Photos
     Type: AWS::Lambda::Function
     Properties:
       FunctionName:
         Fn::Sub: searchphotos-lambda-function-2-cf
       Runtime: python3.9
-      CodeUri: ../../lambda_functions/index_photos
+      CodeUri: ./index_photos
         # ZipFile: #need to add the code here
         #   "exports.handler = function(event, context){\n
         #     var sample = sample;"
-      Role:
-        Fn::GetAtt:
-          - SearchPhotosLambdaExecutionRole
-          - Arn
-  Permission to call L2
-  Lambda2Permission: 
-    Type: AWS::Lambda::Permission,
-    Properties: 
-      Action: lambda:invokeFunction,
-      FunctionName: Fn::GetAtt: [LambdaFunction2-CF, Arn]
-      Principal: apigateway.amazonaws.com,
-      SourceArn: !GetAtt PhotoSearchAPI.Arn ##############This may need to be looked at
+      Role: arn:aws:iam::927015531901:role/service-role/search-photos-role-u9e4q58p
+        # Fn::GetAtt:
+        #   - SearchPhotosLambdaExecutionRole
+        #   - Arn
+  # Permission to call L2
