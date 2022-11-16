@@ -6,6 +6,7 @@ from package.requests_aws4auth import AWS4Auth
 
 def lambda_handler(event, context):
     # TODO implement
+    # TEST TO CHECK IF GIT IS WORKING
     print(event)
     inputText = event['queryStringParameters']['q']
     keywords = get_keywords(inputText)
