@@ -8,7 +8,9 @@ Resources:
       FunctionName:
         Fn::Sub: indexphotos-lambda-function-1-cf
       Runtime: python3.9
-      CodeUri: ./search_photos
+      Code:
+        S3Bucket: cf-lambda1-code
+        S3Key: lambda1.zip
         # ZipFile: #need to add the code here
         #   "exports.handler = function(event, context){\n
         #     var sample = sample;"
@@ -22,7 +24,9 @@ Resources:
       FunctionName:
         Fn::Sub: searchphotos-lambda-function-2-cf
       Runtime: python3.9
-      CodeUri: ./index_photos
+      Code:
+        S3Bucket: cf-lambda2-code
+        S3Key: lambda2.zip
         # ZipFile: #need to add the code here
         #   "exports.handler = function(event, context){\n
         #     var sample = sample;"
