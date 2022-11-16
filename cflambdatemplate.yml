@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "LambdaCloudFormationTemplate"
+Resources:
+#LAMBDA
+  LambdaFunction1CF: #Lambda Function-Index Photos
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName:
+        Fn::Sub: indexphotos-lambda-function-1-cf
+      Runtime: python3.9
+      CodeUri: ../../lambda_functions/search_photos
+        # ZipFile: #need to add the code here
+        #   "exports.handler = function(event, context){\n
+        #     var sample = sample;"
+      Role:
+        Fn::GetAtt:
+          - IndexPhotosLambdaExecutionRole
+          - Arn
+  LambdaFunction2CF: #Lambda Function-Search Photos
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName:
+        Fn::Sub: searchphotos-lambda-function-2-cf
+      Runtime: python3.9
+      CodeUri: ../../lambda_functions/index_photos
+        # ZipFile: #need to add the code here
+        #   "exports.handler = function(event, context){\n
+        #     var sample = sample;"
+      Role:
+        Fn::GetAtt:
+          - SearchPhotosLambdaExecutionRole
+          - Arn
+  Permission to call L2
+  Lambda2Permission: 
+    Type: AWS::Lambda::Permission,
+    Properties: 
+      Action: lambda:invokeFunction,
+      FunctionName: Fn::GetAtt: [LambdaFunction2-CF, Arn]
+      Principal: apigateway.amazonaws.com,
+      SourceArn: !GetAtt PhotoSearchAPI.Arn ##############This may need to be looked at
