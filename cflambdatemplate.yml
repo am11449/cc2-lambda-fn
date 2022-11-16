@@ -1,43 +1,35 @@
-AWSTemplateFormatVersion: "2010-09-09"
-Description: "LambdaCloudFormationTemplate"
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: An AWS Serverless Specification template describing your function.
 Resources:
-#LAMBDA
-  LambdaFunction1CF: #Lambda Function-Index Photos
-    Type: AWS::Lambda::Function
+  searchPhotos:
+    Type: 'AWS::Serverless::Function'
     Properties:
-      FunctionName:
-        Fn::Sub: indexphotos-lambda-function-1-cf
-      Runtime: python3.9
+      FunctionName: searchphotos-lambda-function-2-cf
       Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      CodeUri: ./search_photos
+      Description: 'Lambda function for smart-photos-album searching photos'
+      MemorySize: 128
+      Timeout: 180
+      Role: 'arn:aws:iam::927015531901:role/service-role/search-photos-role-u9e4q58p'
+      Environment:
+        Variables:
+          REGION: us-west-2
+
+  indexPhotos:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: indexphotos-lambda-function-1-cf
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.9
+      CodeUri: ./index_photos
+      Description: 'Lambda function for smart-photos-album indexing photos'
       MemorySize: 128
       Timeout: 30
-      Code:
-        S3Bucket: cf-lambda1-code
-        S3Key: lambda1.zip
-        # ZipFile: #need to add the code here
-        #   "exports.handler = function(event, context){\n
-        #     var sample = sample;"
-      Role: arn:aws:iam::927015531901:role/lambda-index-photos
-        # Fn::GetAtt:
-          # - IndexPhotosLambdaExecutionRole
-          # - Arn
-  LambdaFunction2CF: #Lambda Function-Search Photos
-    Type: AWS::Lambda::Function
-    Properties:
-      FunctionName:
-        Fn::Sub: searchphotos-lambda-function-2-cf
-      Runtime: python3.9
-      Handler: lambda_function.lambda_handler
-      MemorySize: 128
-      Timeout: 30
-      Code:
-        S3Bucket: cf-lambda2-code
-        S3Key: lambda2.zip
-        # ZipFile: #need to add the code here
-        #   "exports.handler = function(event, context){\n
-        #     var sample = sample;"
-      Role: arn:aws:iam::927015531901:role/service-role/search-photos-role-u9e4q58p
-        # Fn::GetAtt:
-        #   - SearchPhotosLambdaExecutionRole
-        #   - Arn
-  # Permission to call L2
+      Role: 'arn:aws:iam::927015531901:role/service-role/index-photos2'
+      Environment:
+        Variables:
+          REGION: us-west-2
+    Bucket1:
+      Type: 'AWS::S3::Bucket'
