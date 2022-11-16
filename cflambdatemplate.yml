@@ -13,7 +13,7 @@ Resources:
         #   "exports.handler = function(event, context){\n
         #     var sample = sample;"
       Role: arn:aws:iam::927015531901:role/lambda-index-photos
-        Fn::GetAtt:
+        # Fn::GetAtt:
           # - IndexPhotosLambdaExecutionRole
           # - Arn
   LambdaFunction2CF: #Lambda Function-Search Photos
